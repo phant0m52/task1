@@ -8,31 +8,59 @@ import ru.university.goncharov.model.Meeting;
 import java.util.*;
 
 public class TodoRepositoryInMemoryImpl implements TodoRepository {
-    private List<Event> events = new ArrayList<>();
+    private final List<Event> events;
+    private int id = 0;
 
+    public TodoRepositoryInMemoryImpl(List<Event> events) {
+        this.events = new ArrayList<>(events);
+    }
 
     @Override
     public List<Event> getAll() {
-        return List.of();
+        return new ArrayList<>(events);
     }
 
     @Override
-    public Event create(Event event) {
-        return null;
+    public Event addEvent(Event event) {
+        event.setId(id++);
+        events.add(event);
+        return event;
     }
 
     @Override
-    public Event update(Event event) {
-        return null;
+    public Birthday addBirthday(Birthday birthday) {
+        events.add(birthday);
+        return birthday;
     }
 
     @Override
-    public boolean delete(index id) {
-        return false;
+    public Meeting addMeeting(Meeting meeting) {
+        events.add(meeting);
+        return meeting;
     }
 
     @Override
-    public Optional<Event> getById(index id) {
-        return Optional.empty();
+    public Event update(int index, Event event) {
+        events.set(index, event);
+        return event;
     }
+
+    @Override
+    public boolean delete(int index) {
+        if (index < 0 || index >= events.size()){
+            return false;
+        }
+        events.remove(index);
+        return true;
+    }
+
+    @Override
+    public Optional<Event> getById(int index) {
+        if (index < 0 || index >= events.size()){
+            return Optional.empty();
+        }
+        return Optional.of(events.get(index));
+    }
+
+
 }

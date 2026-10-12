@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 
-public abstract class Event implements Serializable{
+public abstract class Event {
     private LocalDate date;
     private String description;
 

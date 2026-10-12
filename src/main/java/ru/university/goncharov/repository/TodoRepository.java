@@ -12,11 +12,15 @@ public interface TodoRepository {
 
     List<Event> getAll();
 
-    Event create(Event event);
+    Event addEvent(Event event);
 
-    Event update(Event event);
+    Birthday addBirthday(Birthday birthday);
 
-    boolean delete(index id);
+    Meeting addMeeting(Meeting meeting);
 
-    Optional<Event> getById(index id);
+    Event update(int index, Event event);
+
+    boolean delete(int index);
+
+    Optional<Event> getById(int index);
 }
