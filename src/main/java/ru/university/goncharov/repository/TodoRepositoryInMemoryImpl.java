@@ -8,12 +8,8 @@ import ru.university.goncharov.model.Meeting;
 import java.util.*;
 
 public class TodoRepositoryInMemoryImpl implements TodoRepository {
-    private final List<Event> events;
+    private final List<Event> events = new ArrayList<>();
     private int id = 0;
-
-    public TodoRepositoryInMemoryImpl(List<Event> events) {
-        this.events = new ArrayList<>(events);
-    }
 
     @Override
     public List<Event> getAll() {
@@ -22,7 +18,6 @@ public class TodoRepositoryInMemoryImpl implements TodoRepository {
 
     @Override
     public Event addEvent(Event event) {
-        event.setId(id++);
         events.add(event);
         return event;
     }
@@ -40,26 +35,30 @@ public class TodoRepositoryInMemoryImpl implements TodoRepository {
     }
 
     @Override
-    public Event update(int index, Event event) {
-        events.set(index, event);
+    public Event update(String id, Event event) {
+        events.set(Integer.parseInt(id), event);
         return event;
     }
 
     @Override
-    public boolean delete(int index) {
-        if (index < 0 || index >= events.size()){
-            return false;
+    public boolean deleteById(String id) {
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getId().equals(id)) {
+                events.remove(i);
+                return true;
+            }
         }
-        events.remove(index);
-        return true;
-    }
 
+        return false;
+    }
     @Override
-    public Optional<Event> getById(int index) {
-        if (index < 0 || index >= events.size()){
-            return Optional.empty();
+    public Optional<Event> getById(String id) {
+        for (Event event : events) {
+            if (event.getId().equals(id)) {
+                return Optional.of(event);
+            }
         }
-        return Optional.of(events.get(index));
+        return Optional.empty();
     }
 
 

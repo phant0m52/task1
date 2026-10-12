@@ -18,9 +18,9 @@ public interface TodoRepository {
 
     Meeting addMeeting(Meeting meeting);
 
-    Event update(int index, Event event);
+    Event update(String id, Event event);
 
-    boolean delete(int index);
+    boolean deleteById(String id);
 
-    Optional<Event> getById(int index);
+    Optional<Event> getById(String id);
 }

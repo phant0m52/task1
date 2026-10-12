@@ -10,7 +10,7 @@ import ru.university.goncharov.model.Event;
 import ru.university.goncharov.model.Meeting;
 import ru.university.goncharov.repository.TodoRepository;
 
-
+import java.util.UUID;
 
 
 public class OrganizerService {
@@ -47,22 +47,22 @@ public class OrganizerService {
         return repository.getAll();
     }
 
-    public Event updateEvent(int index, Event event) {
+    public Event updateEvent(String id, Event event) {
         if (event == null) {
             throw new IllegalArgumentException("Событие не может быть null");
         }
-        if (index < 0 || index >= getAllEvents().size()) {
-            throw new EventNotFoundException("Событие с индексом " + index + " не найдено");
+        if (Integer.parseInt(id) < 0 || Integer.parseInt(id) >= getAllEvents().size()) {
+            throw new EventNotFoundException("Событие с индексом " + id + " не найдено");
         }
-        return repository.update(index, event);
+        return repository.update(id, event);
     }
 
-    public boolean delete(int index) {
-        if(index < 0 || index >= getAllEvents().size()) {
+    public boolean delete(String id) {
+        if(Integer.parseInt(id)< 0 || Integer.parseInt(id) >= getAllEvents().size()) {
             System.out.println("Введите правильный индекс");
             return false;
         }
-        return repository.delete(index);
+        return repository.deleteById(id);
     }
 
     public Optional<Event> getEventById(int index) {
