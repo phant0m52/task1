@@ -9,12 +9,12 @@ import ru.university.goncharov.service.OrganizerService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+import java.util.UUID;
 public class Main {
 
     public static void main(String[] args) {
         List<Event> events = new ArrayList<>();
-        TodoRepositoryInMemoryImpl todorepository = new TodoRepositoryInMemoryImpl(events);
+        TodoRepositoryInMemoryImpl todorepository = new TodoRepositoryInMemoryImpl();
         OrganizerService organizerservice = new OrganizerService(todorepository);
         Scanner scan = new Scanner(System.in);
         Controller controller = new Controller(organizerservice, scan);

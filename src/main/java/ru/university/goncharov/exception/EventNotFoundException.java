@@ -1,19 +1,7 @@
 package ru.university.goncharov.exception;
 
-public class EventNotFoundException extends RuntimeException {
-
-
-    public EventNotFoundException() {
-        super();
-    }
-
-
-    public EventNotFoundException(String message) {
-        super(message);
-    }
-
-
-    public EventNotFoundException(String message, Throwable cause) {
-        super(message, cause);
+public class EventNotFoundException extends BusinessException {
+    public EventNotFoundException(String id) {
+        super("Событие с ID " + id + " не найдено");
     }
 }

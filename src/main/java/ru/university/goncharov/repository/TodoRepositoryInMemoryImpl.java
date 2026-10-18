@@ -9,11 +9,11 @@ import java.util.*;
 
 public class TodoRepositoryInMemoryImpl implements TodoRepository {
     private final List<Event> events = new ArrayList<>();
-    private int id = 0;
+
 
     @Override
     public List<Event> getAll() {
-        return new ArrayList<>(events);
+        return events;
     }
 
     @Override
@@ -36,21 +36,23 @@ public class TodoRepositoryInMemoryImpl implements TodoRepository {
 
     @Override
     public Event update(String id, Event event) {
-        events.set(Integer.parseInt(id), event);
-        return event;
+        for (int i = 0; i < events.size(); i++){
+            if (events.get(i).getId().equals(id)){
+
+                events.set(i, event);
+                return event;
+            }
+        }
+        throw new IllegalArgumentException(
+                "Событие с ID " + id + "е найдено"
+        );
     }
 
     @Override
     public boolean deleteById(String id) {
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getId().equals(id)) {
-                events.remove(i);
-                return true;
-            }
-        }
-
-        return false;
+        return events.removeIf(event -> event.getId().equals(id));
     }
+
     @Override
     public Optional<Event> getById(String id) {
         for (Event event : events) {
@@ -60,6 +62,4 @@ public class TodoRepositoryInMemoryImpl implements TodoRepository {
         }
         return Optional.empty();
     }
-
-
 }

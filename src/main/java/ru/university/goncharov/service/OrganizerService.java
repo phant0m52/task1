@@ -10,9 +10,6 @@ import ru.university.goncharov.model.Event;
 import ru.university.goncharov.model.Meeting;
 import ru.university.goncharov.repository.TodoRepository;
 
-import java.util.UUID;
-
-
 public class OrganizerService {
 
     private final TodoRepository repository;
@@ -23,14 +20,14 @@ public class OrganizerService {
 
     public Event addEvent(Event event) {
         if(event == null){
-            throw new IllegalArgumentException("Событие не может быть null");
+            throw new IllegalArgumentException("Событие не может быть пустым");
         }
         return repository.addEvent(event);
     }
 
     public Meeting addMeeting(Meeting meeting) {
         if(meeting == null){
-            throw new IllegalArgumentException("Событие не может быть null");
+            throw new IllegalArgumentException("Событие не может быть пустым");
         }
         return repository.addMeeting(meeting);
     }
@@ -48,29 +45,31 @@ public class OrganizerService {
     }
 
     public Event updateEvent(String id, Event event) {
-        if (event == null) {
-            throw new IllegalArgumentException("Событие не может быть null");
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("ID не может быть пустым");
         }
-        if (Integer.parseInt(id) < 0 || Integer.parseInt(id) >= getAllEvents().size()) {
-            throw new EventNotFoundException("Событие с индексом " + id + " не найдено");
+        if (event == null) {
+            throw new IllegalArgumentException("Событие не может быть пустым");
+        }
+        if (repository.getById(id).isEmpty()){
+            throw new EventNotFoundException(
+                    "Событие с ID " + id + " не найдено"
+            );
         }
         return repository.update(id, event);
     }
 
     public boolean delete(String id) {
-        if(Integer.parseInt(id)< 0 || Integer.parseInt(id) >= getAllEvents().size()) {
-            System.out.println("Введите правильный индекс");
-            return false;
-        }
+
         return repository.deleteById(id);
     }
 
-    public Optional<Event> getEventById(int index) {
-        List<Event> events = repository.getAll();
-        if (index < 0 || index >= events.size()) {
+    public Optional<Event> getEventById(String id) {
+
+        if (id == null || id.isBlank()) {
             return Optional.empty();
         }
-        return Optional.of(getAllEvents().get(index));
+        return repository.getById(id);
 
     }
 

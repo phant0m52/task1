@@ -1,6 +1,5 @@
 package ru.university.goncharov.model;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -16,6 +15,9 @@ public abstract class Event {
     }
     public String getId() {
         return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDate getDate(){
