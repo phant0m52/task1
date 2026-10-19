@@ -8,6 +8,7 @@ import ru.university.goncharov.exception.BusinessException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -27,7 +28,6 @@ public class Controller {
         boolean cases = true;
         while (cases) {
                 printMenu();
-
                 String choice = scan.nextLine();
 
                 if (choice.equals("0")) {
@@ -83,13 +83,32 @@ public class Controller {
             System.out.println("Выберите действие ");
         }
 
+        private LocalDate readDate() {
+            while (true) {
+                System.out.println("Выберите дату (формат: год-месяц-день)");
+                try {
+                  return LocalDate.parse(scan.nextLine().trim());
+                } catch (DateTimeParseException e) {
+                    System.out.println("Дата введена в неправильном формате. Пример: 2026-11-05");
+                }
+            }
+        }
 
-
+        private LocalTime readTime() {
+            while (true) {
+                System.out.println("Выберите время (формат: 14:30)");
+                try {
+                    return LocalTime.parse(scan.nextLine().trim());
+                } catch (DateTimeParseException e) {
+                    System.out.println("Время введено в неправильном формате. Пример: 14:30");
+                }
+            }
+        }
 
         private void addB() {
-            System.out.println("Выберите дату (формат: год-месяц-дата)");
 
-            LocalDate date = LocalDate.parse(scan.nextLine());
+
+            LocalDate date = readDate();
 
             System.out.println("Введите описание");
             String bDesc = scan.nextLine();
@@ -97,8 +116,8 @@ public class Controller {
             System.out.println("Введите имя именинника");
             String bName = scan.nextLine();
 
-            System.out.println("Введите время рождения");
-            LocalTime bTime = LocalTime.parse(scan.nextLine());
+
+            LocalTime bTime = readTime();
 
             System.out.println("Введите что хотите подарить");
             String bGift = scan.nextLine();
@@ -109,8 +128,8 @@ public class Controller {
         }
 
         private void addM(){
-            System.out.println("Выберите дату (формат: год-месяц-дата)");
-            LocalDate mDate = LocalDate.parse(scan.nextLine());
+
+            LocalDate mDate = readDate();
 
             System.out.println("Введите описание");
             String mDesc = scan.nextLine();
@@ -118,8 +137,7 @@ public class Controller {
             System.out.println("Введите собеседника(ов)");
             String mInterlocutor = scan.nextLine();
 
-            System.out.println("Введите время начала (формат: час:минуты)");
-            LocalTime mTime = LocalTime.parse(scan.nextLine());
+            LocalTime mTime = readTime();
 
             Meeting m = new Meeting(mDate, mDesc, mInterlocutor, mTime);
             organizerService.addMeeting(m);
@@ -181,8 +199,8 @@ public class Controller {
 
                 if (event instanceof Birthday){
 
-                    System.out.println("Выберите дату (формат: год-месяц-дата)");
-                    LocalDate date = LocalDate.parse(scan.nextLine());
+
+                    LocalDate date = readDate();
 
                     System.out.println("Введите описание");
                     String bDesc = scan.nextLine();
@@ -190,8 +208,7 @@ public class Controller {
                     System.out.println("Введите имя именинника");
                     String bName = scan.nextLine();
 
-                    System.out.println("Введите время рождения (формат: часы:минуты)");
-                    LocalTime bTime = LocalTime.parse(scan.nextLine());
+                    LocalTime bTime = readTime();
 
                     System.out.println("Введите что хотите подарить");
                     String bGift = scan.nextLine();
@@ -200,8 +217,8 @@ public class Controller {
                     organizerService.updateEvent(id, updatedB);
                     System.out.println("День рождения успешно обновлен!");
                 }else if (event instanceof Meeting){
-                    System.out.println("Выберите дату (формат: год-месяц-дата)");
-                    LocalDate mDate = LocalDate.parse(scan.nextLine());
+
+                    LocalDate mDate = readDate();
 
                     System.out.println("Введите описание");
                     String mDesc = scan.nextLine();
@@ -209,8 +226,8 @@ public class Controller {
                     System.out.println("Введите собеседника(ов)");
                     String mInterlocutor = scan.nextLine();
 
-                    System.out.println("Введите время начала (формат: час:минуты)");
-                    LocalTime mTime = LocalTime.parse(scan.nextLine());
+
+                    LocalTime mTime = readTime();
 
                     Meeting updatedM = new Meeting(mDate, mDesc, mInterlocutor, mTime);
                     organizerService.updateEvent(id, updatedM);

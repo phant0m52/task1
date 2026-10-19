@@ -44,7 +44,7 @@ public class TodoRepositoryInMemoryImpl implements TodoRepository {
             }
         }
         throw new IllegalArgumentException(
-                "Событие с ID " + id + "е найдено"
+                "Событие с ID " + id + " не найдено"
         );
     }
 
