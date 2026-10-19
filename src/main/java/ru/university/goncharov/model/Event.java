@@ -1,16 +1,23 @@
 package ru.university.goncharov.model;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
-
-public abstract class Event implements Serializable{
+public abstract class Event {
+    private String id;
     private LocalDate date;
     private String description;
 
     public Event(LocalDate date,String description){
+        this.id = UUID.randomUUID().toString();
         this.date = date;
         this.description = description;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDate getDate(){
